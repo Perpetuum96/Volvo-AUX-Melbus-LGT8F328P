@@ -54,4 +54,15 @@ Compared to the original Melbus_Mitsubishi_HU.ino:
 
 * **[Karl Hagström (klalle)](https://gist.github.com/klalle/1ae1bfec5e2506918a3f89492180565e) (2015):** The original mastermind behind the Melbus CD-Changer emulation logic. His [blog post](http://gizmosnack.blogspot.se/2015/11/aux-in-volvo-hu-xxxx-radio.html) is the foundation of this project.
 * **Sebastian Zeller (2016):** Key code modifications and timing improvements.
-* **[visualapproach](https://github.com/visualapproach/Volvo-melbus/):** Excellent documentation and modern Arduino implementation of the Melbus protocol.
+* **[visualapproach](https://github.com/visualapproach/Volvo-melbus/):** Excellent documentation and modern Arduino implementation of the Melbus protocol.'
+
+---
+
+## ⚠️ Disclaimer & Safety
+**Use this project at your own risk!**
+- Working on car electronics can damage your Head Unit (HU) or the vehicle's electrical system if done incorrectly.
+- **Short Circuit Risk:** The Melbus connector provides constant 12V power. Always disconnect the battery or the radio fuse before connecting your DIY adapter.
+- I am not responsible for any damage to your vehicle, radio, or person.
+- Double-check your wiring and solder joints before plugging it in!
+
+---
