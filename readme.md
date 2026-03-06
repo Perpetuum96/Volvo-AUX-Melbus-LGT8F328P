@@ -36,6 +36,7 @@ To remain active, the emulator must respond to the HU's secondary initialization
 | **3x 100Ω Resistors** | Protection for Melbus signal lines (CLK, DATA, BUSY). |
 | **1x 4,7kΩ Resistor** | Pull-up/Base resistor for transistor circuit. |
 | **8-Pin DIN Plug** | 90° Male, 270° configuration for Volvo HU connector. |
+| **AUX Socket / Jack** | 3.5mm female stereo connector for audio input. |
 | **Ground Loop Isolator** | Eliminates engine noise/hum from the AUX audio signal. |
 | **[3D-Printed Case](https://www.printables.com/model/1627612-volvo-aux-melbus-cd-changer-emulator-arduino-nano)** | Custom enclosure for a clean installation. |
 
