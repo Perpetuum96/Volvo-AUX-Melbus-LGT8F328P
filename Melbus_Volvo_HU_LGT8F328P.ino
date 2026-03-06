@@ -1,27 +1,23 @@
 /* Melbus CDCHGR Emulator
  * Program that emulates the MELBUS communication from a CD-changer (CD-CHGR) in a Volvo V70 (HU-xxxx) to enable AUX-input through the 8-pin DIN-contact. 
  * This setup is using an Arduino Nano 5v clone
- * 
- * The HU enables the CD-CHGR in its source-menue after a successful initialization procedure is accomplished. 
+ * * The HU enables the CD-CHGR in its source-menue after a successful initialization procedure is accomplished. 
  * The HU will remove the CD-CHGR everytime the car starts if it wont get an response from CD-CHGR (second init-procedure).
- * 
- * Karl Hagström 2015-11-04
+ * * Karl Hagström 2015-11-04
  * mod by S. Zeller 2016-03-14
- * 
- * This project went realy smooth thanks to these sources: 
+ * * This project went realy smooth thanks to these sources: 
  * http://volvo.wot.lv/wiki/doku.php?id=melbus
  * https://github.com/festlv/screen-control/blob/master/Screen_control/melbus.cpp
  * http://forums.swedespeed.com/showthread.php?50450-VW-Phatbox-to-Volvo-Transplant-(How-To)&highlight=phatbox
- * 
- * pulse train width=120us (15us per clock cycle), high phase between two pulse trains is 540us-600us 
+ * * pulse train width=120us (15us per clock cycle), high phase between two pulse trains is 540us-600us 
  */
 
 
 #define SERDBG 1 
-const uint8_t MELBUS_CLOCKBIT_INT = 1; //interrupt numer (INT1) on DDR3
-const uint8_t MELBUS_CLOCKBIT = 3; //Pin D3 - CLK
-const uint8_t MELBUS_DATA = 4; //Pin D4  - Data
-const uint8_t MELBUS_BUSY = 5; //Pin D5  - Busy
+const uint8_t MELBUS_CLOCKBIT_INT = 0; //interrupt numer (INT0) on DDR2 (D2)
+const uint8_t MELBUS_CLOCKBIT = 2; //Pin D2 - CLK
+const uint8_t MELBUS_DATA = 3; //Pin D3  - Data
+const uint8_t MELBUS_BUSY = 4; //Pin D4  - Busy
 
 volatile uint8_t melbus_ReceivedByte = 0;
 volatile uint8_t melbus_CharBytes = 0;
@@ -48,7 +44,7 @@ void setup() {
   //Data is deafult input high
   pinMode(MELBUS_DATA, INPUT_PULLUP);
   
-  //Activate interrupt on clock pin (INT1, D3)
+  //Activate interrupt on clock pin (INT0, D2)
   attachInterrupt(MELBUS_CLOCKBIT_INT, MELBUS_CLOCK_INTERRUPT, FALLING); 
   //Set Clockpin-interrupt to input
   pinMode(MELBUS_CLOCKBIT, INPUT_PULLUP);
@@ -201,8 +197,8 @@ void loop() {
 
 //Notify HU that we want to trigger the first initiate procedure to add a new device (CD-CHGR) by pulling BUSY line low for 1s
 void melbus_Init_CDCHRG() {
-  //Disabel interrupt on INT1 quicker then: detachInterrupt(MELBUS_CLOCKBIT_INT);
-  EIMSK &= ~(1<<INT1); 
+  //Disabel interrupt on INT0 quicker then: detachInterrupt(MELBUS_CLOCKBIT_INT);
+  EIMSK &= ~(1<<INT0); 
   
  // Wait untill Busy-line goes high (not busy) before we pull BUSY low to request init
   while(digitalRead(MELBUS_BUSY)==LOW){} 
@@ -214,8 +210,8 @@ void melbus_Init_CDCHRG() {
   digitalWrite(MELBUS_BUSY, HIGH);
   pinMode(MELBUS_BUSY, INPUT_PULLUP);
 
-  //Enable interrupt on INT1, quicker then: attachInterrupt(MELBUS_CLOCKBIT_INT, MELBUS_CLOCK_INTERRUPT, RISING);
-  EIMSK |= (1<<INT1); 
+  //Enable interrupt on INT0, quicker then: attachInterrupt(MELBUS_CLOCKBIT_INT, MELBUS_CLOCK_INTERRUPT, RISING);
+  EIMSK |= (1<<INT0); 
 }
 
 
@@ -345,7 +341,5 @@ void MELBUS_CLOCK_INTERRUPT() {
       //set bitnumber to address of next bit in byte
       melbus_Bitposition>>=1;
     }
-    EIFR |= (1 << INTF1);
+    EIFR |= (1 << INTF0);
 }
-
-
